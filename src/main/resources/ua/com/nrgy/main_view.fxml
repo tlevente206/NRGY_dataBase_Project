@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ua.com.nrgy.controller.MainController">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Gyülekezeti Nyilvántartó" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+
+    <TableView fx:id="tagokTablazat" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="nevOszlop" text="Név" prefWidth="200"/>
+            <TableColumn fx:id="cimOszlop" text="Lakcím" prefWidth="250"/>
+        </columns>
+    </TableView>
+
+    <Button text="Új tag hozzáadása" onAction="#handleUjTag"/>
+</VBox>
