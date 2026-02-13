@@ -1,22 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
 
-<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="ua.com.nrgy.controller.MainController">
-    <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
-    </padding>
+<VBox prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.com.nrgy.controller.MainController">
 
-    <Label text="Gyülekezeti Nyilvántartó" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+    <MenuBar>
+        <menus>
+            <Menu text="Fájl">
+                <items>
+                    <MenuItem text="Exportálás (Excel)" />
+                    <MenuItem text="Biztonsági mentés" />
+                    <SeparatorMenuItem />
+                    <MenuItem onAction="#handleExit" text="Kilépés" />
+                </items>
+            </Menu>
+            <Menu text="Szerkesztés">
+                <items>
+                    <MenuItem accelerator="Shortcut+N" onAction="#handleUjTagDialog" text="Új tag" />
+                    <MenuItem accelerator="Delete" text="Törlés" />
+                </items>
+            </Menu>
+            <Menu text="Nézet">
+                <items>
+                    <Menu text="Téma választás">
+                        <items>
+                            <RadioMenuItem fx:id="lightThemeMenu" onAction="#changeToLight" text="Világos (Primer Light)" />
+                            <RadioMenuItem fx:id="darkThemeMenu" onAction="#changeToDark" text="Sötét (Primer Dark)" />
+                        </items>
+                    </Menu>
+                    <MenuItem text="Nagyítás" />
+                </items>
+            </Menu>
+            <Menu text="Súgó">
+                <items>
+                    <MenuItem text="Névjegy" />
+                </items>
+            </Menu>
+        </menus>
+    </MenuBar>
 
-    <TableView fx:id="tagokTablazat" VBox.vgrow="ALWAYS">
-        <columns>
-            <TableColumn fx:id="nevOszlop" text="Név" prefWidth="200"/>
-            <TableColumn fx:id="cimOszlop" text="Lakcím" prefWidth="250"/>
-        </columns>
-    </TableView>
+    <VBox spacing="10.0" VBox.vgrow="ALWAYS">
+        <padding>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+        </padding>
 
-    <Button text="Új tag hozzáadása" onAction="#handleUjTag"/>
+        <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+            <tabs>
+                <Tab text="Gyülekezeti Tagok">
+                    <VBox spacing="10.0">
+                        <padding>
+                            <Insets top="10.0" />
+                        </padding>
+                        <TableView fx:id="tagokTablazat" VBox.vgrow="ALWAYS" styleClass="striped">
+                            <columnResizePolicy>
+                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                            </columnResizePolicy>
+                            <columns>
+                                <TableColumn fx:id="tagNevOszlop" text="Név" />
+                                <TableColumn fx:id="tagSzulIdoOszlop" text="Szül. Idő" />
+                                <TableColumn fx:id="tagSzulHelyOszlop" text="Szül. Hely" />
+                                <TableColumn fx:id="tagCimOszlop" text="Lakcím" />
+                                <TableColumn fx:id="tagTelOszlop" text="Telefon" />
+                                <TableColumn fx:id="tagEfjOszlop" text="EFJ" />
+                                <TableColumn fx:id="tagPresbitereOszlop" text="Presbitere" />
+                            </columns>
+                        </TableView>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <Button onAction="#handleUjTagDialog" styleClass="success" text="Új Tag" />
+                            <Button styleClass="danger" text="Törlés" />
+                            <Region HBox.hgrow="ALWAYS" />
+
+                            <ComboBox fx:id="tagKeresoOszlopCombo" prefWidth="150.0" promptText="Keresés alapja..." />
+                            <TextField fx:id="tagKeresoField" prefWidth="250.0" promptText="Keresés..." />
+                        </HBox>
+                    </VBox>
+                </Tab>
+
+                <Tab text="Presbiterek">
+                    <VBox spacing="10.0">
+                        <padding>
+                            <Insets top="10.0" />
+                        </padding>
+                        <TableView fx:id="presbiterTablazat" VBox.vgrow="ALWAYS" styleClass="striped">
+                            <columnResizePolicy>
+                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                            </columnResizePolicy>
+                            <columns>
+                                <TableColumn fx:id="presNevOszlop" text="Név" />
+                                <TableColumn fx:id="presSzulIdoOszlop" text="Szül. Idő" />
+                                <TableColumn fx:id="presSzulHelyOszlop" text="Szül. Hely" />
+                                <TableColumn fx:id="presCimOszlop" text="Lakcím" />
+                                <TableColumn fx:id="presTelOszlop" text="Telefon" />
+                                <TableColumn fx:id="presEfjOszlop" text="EFJ" />
+                                <TableColumn fx:id="presBeiktatasOszlop" text="Beiktatva" />
+                                <TableColumn fx:id="presUtcaiOszlop" text="Körzet/Utcai" />
+                            </columns>
+                        </TableView>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <Button onAction="#handleUjPresbiterDialog" styleClass="accent" text="Új Presbiter" />
+                            <Button styleClass="danger" text="Törlés" />
+                            <Region HBox.hgrow="ALWAYS" />
+
+                            <ComboBox fx:id="presKeresoOszlopCombo" prefWidth="150.0" promptText="Keresés alapja..." />
+                            <TextField fx:id="presKeresoField" prefWidth="250.0" promptText="Keresés..." />
+                        </HBox>
+                    </VBox>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </VBox>
 </VBox>

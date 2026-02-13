@@ -11,6 +11,7 @@ public class Tag {
     private final StringProperty telefonszam;
     private final BooleanProperty efj_befizetes;
     private final IntegerProperty presbiter_id;
+    private final StringProperty presbiterNeve;
 
     public Tag(int id, String nev, String szul_ido, String szul_hely, String lakcim, String telefonszam, boolean efj_befizetes, int presbiter_id){
         this.id = new SimpleIntegerProperty(id);
@@ -21,6 +22,7 @@ public class Tag {
         this.telefonszam = new SimpleStringProperty(telefonszam);
         this.efj_befizetes = new SimpleBooleanProperty(efj_befizetes);
         this.presbiter_id = new SimpleIntegerProperty(presbiter_id);
+        this.presbiterNeve = new SimpleStringProperty("");
     }
 
     // --- Ezek kellenek az SQL mentéshez (Sima értékek) ---
@@ -42,4 +44,8 @@ public class Tag {
     public StringProperty telefonszamProperty() { return telefonszam; }
     public BooleanProperty efj_befizetesProperty() { return efj_befizetes; }
     public IntegerProperty presbiter_idProperty() { return presbiter_id; }
+
+    public StringProperty presbiterNeveProperty() { return presbiterNeve; }
+    public String getPresbiterNeve() { return presbiterNeve.get(); }
+    public void setPresbiterNeve(String nev) { this.presbiterNeve.set(nev); }
 }

@@ -11,19 +11,19 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        // 1. ADATBÁZIS INICIALIZÁLÁSA
-        // Ez létrehozza a .db fájlt és a táblákat még a UI betöltése előtt
         DatabaseHandler.initialize();
 
-        // 2. DESIGN BEÁLLÍTÁSA
         Application.setUserAgentStylesheet(new PrimerLight().getUserAgentStylesheet());
 
-        // 3. UI BETÖLTÉSE
         FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("main_view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 800, 600);
+        Scene scene = new Scene(fxmlLoader.load()); // Itt már nem kell fix méret (800, 600)
 
         stage.setTitle("Református Gyülekezeti Nyilvántartó");
         stage.setScene(scene);
+
+        // EZ A SOR KELL: Maximalizálva indul, de a gombokkal kicsinyíthető marad
+        stage.setMaximized(true);
+
         stage.show();
     }
 

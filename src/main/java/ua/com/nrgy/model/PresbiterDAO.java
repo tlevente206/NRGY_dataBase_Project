@@ -31,15 +31,14 @@ public class PresbiterDAO {
 
     // Összes presbiter lekérése
     public List<Presbiter> findAll() {
-        List<Presbiter> presbiterek = new ArrayList<>();
+        List<Presbiter> lista = new ArrayList<>();
         String sql = "SELECT * FROM Presbiterek";
-
         try (Connection conn = DatabaseHandler.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                presbiterek.add(new Presbiter(
+                lista.add(new Presbiter(
                         rs.getInt("id"),
                         rs.getString("nev"),
                         rs.getString("szul_ido"),
@@ -54,6 +53,6 @@ public class PresbiterDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return presbiterek;
+        return lista;
     }
 }

@@ -28,14 +28,16 @@ public class TagDAO {
 
     public List<Tag> findAll() {
         List<Tag> tagok = new ArrayList<>();
-        String sql = "SELECT * FROM Tagok";
+        // SQL JOIN: Összekötjük a Tagok és Presbiterek táblát az ID-k alapján
+        String sql = "SELECT t.*, p.nev AS p_nev FROM Tagok t " +
+                "LEFT JOIN Presbiterek p ON t.presbiter_id = p.id";
 
         try (Connection conn = DatabaseHandler.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                tagok.add(new Tag(
+                Tag tag = new Tag(
                         rs.getInt("id"),
                         rs.getString("nev"),
                         rs.getString("szul_ido"),
@@ -44,7 +46,10 @@ public class TagDAO {
                         rs.getString("telefonszam"),
                         rs.getInt("efj_befizetes") == 1,
                         rs.getInt("presbiter_id")
-                ));
+                );
+                // Itt állítjuk be a nevet, amit a JOIN-ból kaptunk
+                tag.setPresbiterNeve(rs.getString("p_nev") != null ? rs.getString("p_nev") : "Nincs kijelölve");
+                tagok.add(tag);
             }
         } catch (SQLException e) {
             e.printStackTrace();
