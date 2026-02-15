@@ -9,7 +9,7 @@
         <menus>
             <Menu text="Fájl">
                 <items>
-                    <MenuItem text="Exportálás (Excel)" />
+                    <MenuItem text="Exportálás (Mentés)" onAction="#handleExportDialog" />
                     <MenuItem text="Biztonsági mentés" />
                     <SeparatorMenuItem />
                     <MenuItem onAction="#handleExit" text="Kilépés" />
@@ -75,6 +75,10 @@
                             <Button onAction="#handleTagTorles" styleClass="danger" text="Törlés" />
                             <Region HBox.hgrow="ALWAYS" />
 
+                            <Label text="Összesen:" />
+                            <Label fx:id="tagSorSzamlalo" style="-fx-font-weight: bold; -fx-text-fill: -color-accent-fg;" text="0" />
+                            <Label text="sor" />
+
                             <ComboBox fx:id="tagKeresoOszlopCombo" prefWidth="150.0" promptText="Keresés alapja..." />
                             <TextField fx:id="tagKeresoField" prefWidth="250.0" promptText="Keresés..." />
                         </HBox>
@@ -108,6 +112,12 @@
                             <Button onAction="#handleUjPresbiterDialog" styleClass="accent" text="Új Presbiter" />
                             <Button styleClass="danger" text="Törlés" />
                             <Region HBox.hgrow="ALWAYS" />
+
+
+                            <Label text="Összesen:" />
+                            <Label fx:id="presSorSzamlalo" style="-fx-font-weight: bold; -fx-text-fill: -color-accent-fg;" text="0" />
+                            <Label text="sor" />
+
 
                             <ComboBox fx:id="presKeresoOszlopCombo" prefWidth="150.0" promptText="Keresés alapja..." />
                             <TextField fx:id="presKeresoField" prefWidth="250.0" promptText="Keresés..." />
