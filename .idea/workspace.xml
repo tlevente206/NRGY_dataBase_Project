@@ -4,19 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3e1844fb-476c-45c3-9910-f21e23cbbde0" name="Changes" comment="DAO and Presbiter Done">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/data_source_mapping.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/controller/UjTagController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/ua/com/nrgy/uj_tag_dialog.fxml" afterDir="false" />
+    <list default="true" id="3e1844fb-476c-45c3-9910-f21e23cbbde0" name="Changes" comment="Mindenes commit">
+      <change afterPath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/model/Utca.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/model/UtcaDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8e558862-79e3-40ef-a4c9-51cd8b575c7a.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/8e558862-79e3-40ef-a4c9-51cd8b575c7a.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gyulekezet.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/MainApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/MainApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/controller/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/model/PresbiterDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/model/PresbiterDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/model/Tag.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/model/Tag.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/model/TagDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/model/TagDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/ua/com/nrgy/main_view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ua/com/nrgy/main_view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gyulekezet.db" beforeDir="false" afterPath="$PROJECT_DIR$/gyulekezet.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/model/DatabaseHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/model/DatabaseHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,25 +53,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.MainApp.executor": "Run",
-    "Maven.NRGY_dataBase_Project [install].executor": "Run",
-    "Maven.NRGY_dataBase_Project [org.openjfx:javafx-maven-plugin:0.0.8:run].executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "list.type.of.created.stylesheet": "CSS",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.0",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.MainApp.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.NRGY_dataBase_Project [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.NRGY_dataBase_Project [org.openjfx:javafx-maven-plugin:0.0.8:run].executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="MainApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="ua.com.nrgy.MainApp" />
@@ -115,7 +109,8 @@
       <option name="presentableId" value="Default" />
       <updated>1770935448119</updated>
       <workItem from="1770935451689" duration="2631000" />
-      <workItem from="1770995940472" duration="8509000" />
+      <workItem from="1770995940472" duration="10573000" />
+      <workItem from="1771177917677" duration="2027000" />
     </task>
     <task id="LOCAL-00001" summary="Database is working">
       <option name="closed" value="true" />
@@ -133,7 +128,15 @@
       <option name="project" value="LOCAL" />
       <updated>1771003673684</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Mindenes commit">
+      <option name="closed" value="true" />
+      <created>1771013277331</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1771013277331</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -143,6 +146,7 @@
     <MESSAGE value="Database is working" />
     <MESSAGE value="DAO and Presbioter Done" />
     <MESSAGE value="DAO and Presbiter Done" />
-    <option name="LAST_COMMIT_MESSAGE" value="DAO and Presbiter Done" />
+    <MESSAGE value="Mindenes commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Mindenes commit" />
   </component>
 </project>

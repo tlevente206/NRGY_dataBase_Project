@@ -568,7 +568,7 @@
     </routine>
     <schema id="214" parent="1" name="main">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2026-02-13.18:29:54</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2026-02-15.18:14:48</LastIntrospectionLocalTimestamp>
     </schema>
     <argument id="215" parent="14">
       <ArgumentDirection>R</ArgumentDirection>
@@ -1808,116 +1808,140 @@
     </argument>
     <table id="627" parent="214" name="Presbiterek"/>
     <table id="628" parent="214" name="Tagok"/>
-    <table id="629" parent="214" name="sqlite_master">
+    <table id="629" parent="214" name="Utcak"/>
+    <table id="630" parent="214" name="sqlite_master">
       <System>1</System>
     </table>
-    <table id="630" parent="214" name="sqlite_sequence">
+    <table id="631" parent="214" name="sqlite_sequence">
       <System>1</System>
     </table>
-    <column id="631" parent="627" name="id">
+    <column id="632" parent="627" name="id">
       <AutoIncrement>1</AutoIncrement>
       <Position>1</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="632" parent="627" name="nev">
+    <column id="633" parent="627" name="nev">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="633" parent="627" name="szul_ido">
+    <column id="634" parent="627" name="szul_ido">
       <Position>3</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="634" parent="627" name="szul_hely">
+    <column id="635" parent="627" name="szul_hely">
       <Position>4</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="635" parent="627" name="lakcim">
+    <column id="636" parent="627" name="lakcim">
       <Position>5</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="636" parent="627" name="telefonszam">
+    <column id="637" parent="627" name="telefonszam">
       <Position>6</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="637" parent="627" name="efj_befizetes">
+    <column id="638" parent="627" name="efj_befizetes">
       <Position>7</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="638" parent="627" name="beiktatas_eve">
+    <column id="639" parent="627" name="beiktatas_eve">
       <Position>8</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="639" parent="627" name="utcai">
+    <column id="640" parent="627" name="utcai">
       <Position>9</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <key id="640" parent="627">
+    <key id="641" parent="627">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="641" parent="628" name="id">
+    <column id="642" parent="628" name="id">
       <AutoIncrement>1</AutoIncrement>
       <Position>1</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="642" parent="628" name="nev">
+    <column id="643" parent="628" name="nev">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="643" parent="628" name="szul_ido">
+    <column id="644" parent="628" name="szul_ido">
       <Position>3</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="644" parent="628" name="szul_hely">
+    <column id="645" parent="628" name="szul_hely">
       <Position>4</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="645" parent="628" name="lakcim">
+    <column id="646" parent="628" name="lakcim">
       <Position>5</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="646" parent="628" name="telefonszam">
+    <column id="647" parent="628" name="telefonszam">
       <Position>6</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="647" parent="628" name="efj_befizetes">
+    <column id="648" parent="628" name="efj_befizetes">
       <Position>7</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="648" parent="628" name="presbiter_id">
+    <column id="649" parent="628" name="presbiter_id">
       <Position>8</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <key id="649" parent="628">
+    <key id="650" parent="628">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="650" parent="629" name="type">
+    <column id="651" parent="629" name="id">
+      <AutoIncrement>1</AutoIncrement>
       <Position>1</Position>
-      <StoredType>TEXT|0s</StoredType>
+      <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="651" parent="629" name="name">
+    <column id="652" parent="629" name="nev">
+      <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="652" parent="629" name="tbl_name">
+    <index id="653" parent="629" name="sqlite_autoindex_Utcak_1">
+      <ColNames>nev</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <Unique>1</Unique>
+    </index>
+    <key id="654" parent="629">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="655" parent="629">
+      <ColNames>nev</ColNames>
+      <UnderlyingIndexName>sqlite_autoindex_Utcak_1</UnderlyingIndexName>
+    </key>
+    <column id="656" parent="630" name="type">
+      <Position>1</Position>
+      <StoredType>TEXT|0s</StoredType>
+    </column>
+    <column id="657" parent="630" name="name">
+      <Position>2</Position>
+      <StoredType>TEXT|0s</StoredType>
+    </column>
+    <column id="658" parent="630" name="tbl_name">
       <Position>3</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="653" parent="629" name="rootpage">
+    <column id="659" parent="630" name="rootpage">
       <Position>4</Position>
       <StoredType>INT|0s</StoredType>
     </column>
-    <column id="654" parent="629" name="sql">
+    <column id="660" parent="630" name="sql">
       <Position>5</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="655" parent="630" name="name">
+    <column id="661" parent="631" name="name">
       <Position>1</Position>
     </column>
-    <column id="656" parent="630" name="seq">
+    <column id="662" parent="631" name="seq">
       <Position>2</Position>
     </column>
   </database-model>
