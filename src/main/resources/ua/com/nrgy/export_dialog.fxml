@@ -3,39 +3,50 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox prefHeight="450.0" prefWidth="750.0" spacing="20.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.com.nrgy.controller.ExportController">
+<HBox prefHeight="500.0" prefWidth="850.0" spacing="20.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.com.nrgy.controller.ExportController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
 
-    <VBox prefWidth="280.0" spacing="20.0" style="-fx-background-color: -color-bg-subtle; -fx-padding: 20; -fx-background-radius: 10;">
+    <VBox prefWidth="300.0" spacing="20.0" style="-fx-background-color: -color-bg-subtle; -fx-padding: 20; -fx-background-radius: 10;">
         <children>
-            <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Exportálás PDF-be" />
-
+            <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Exportálás" />
             <Separator />
 
             <VBox spacing="8.0">
-                <Label style="-fx-font-weight: bold;" text="Tartalom testreszabása:" />
+                <Label style="-fx-font-weight: bold;" text="Fájlformátum:" />
+                <HBox spacing="10.0">
+                    <ToggleButton fx:id="pdfToggle" selected="true" text="PDF (.pdf)" maxWidth="Infinity" HBox.hgrow="ALWAYS" />
+                    <ToggleButton fx:id="excelToggle" text="Excel (.xlsx)" maxWidth="Infinity" HBox.hgrow="ALWAYS" />
+                </HBox>
+            </VBox>
+
+            <VBox spacing="8.0">
+                <Label style="-fx-font-weight: bold;" text="Tartalom:" />
                 <Button fx:id="oszlopGomb" maxWidth="Infinity" onAction="#handleOszlopValaszto" styleClass="button-outlined" text="Oszlopok kiválasztása..." />
-                <Label fx:id="oszlopStatusz" style="-fx-font-size: 11px;" text="Minden oszlop kijelölve" textFill="GRAY" />
+                <Label fx:id="oszlopStatusz" style="-fx-font-size: 11px;" text="Betöltés..." textFill="GRAY" />
             </VBox>
 
             <VBox spacing="8.0">
                 <Label style="-fx-font-weight: bold;" text="Oldalbeállítások:" />
-                <Button fx:id="beallitasokGomb" maxWidth="Infinity" onAction="#handleOldalBeallitasok" styleClass="button-outlined" text="Tájolás és Margók..." />
-                <Label fx:id="beallitasStatusz" style="-fx-font-size: 11px;" text="Fekvő tájolás, Normál margó" textFill="GRAY" />
+                <Button fx:id="beallitasokGomb" maxWidth="Infinity" onAction="#handleOldalBeallitasok" styleClass="button-outlined" text="Tájolás és Méret..." />
+                <Label fx:id="beallitasStatusz" style="-fx-font-size: 11px;" text="Betöltés..." textFill="GRAY" />
             </VBox>
 
             <Region VBox.vgrow="ALWAYS" />
 
-            <Button maxWidth="Infinity" onAction="#handleExport" prefHeight="40.0" styleClass="accent" text="PDF Mentése" />
+            <Button maxWidth="Infinity" onAction="#handleExport" prefHeight="45.0" styleClass="accent" text="Mentés Indítása" />
         </children>
     </VBox>
 
     <VBox spacing="10.0" HBox.hgrow="ALWAYS">
         <children>
-            <Label style="-fx-font-weight: bold;" text="Nyomtatási előnézet:" />
-            <TableView fx:id="previewTable" VBox.vgrow="ALWAYS" styleClass="striped" />
+            <Label style="-fx-font-weight: bold;" text="Adat előnézet:" />
+            <TableView fx:id="previewTable" VBox.vgrow="ALWAYS" styleClass="striped">
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                </columnResizePolicy>
+            </TableView>
         </children>
     </VBox>
 </HBox>
