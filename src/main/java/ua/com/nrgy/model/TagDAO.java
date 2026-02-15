@@ -74,4 +74,26 @@ public class TagDAO {
             e.printStackTrace();
         }
     }
+
+    public void update(Tag tag) {
+        String sql = "UPDATE Tagok SET nev=?, nem=?, szul_ido=?, szul_hely=?, utca_id=?, hazszam=?, telefonszam=?, efj_befizetes=?, presbiter_id=?, megjegyzes=? WHERE id=?";
+
+        try (Connection conn = DatabaseHandler.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, tag.getNev());
+            pstmt.setString(2, tag.getNem());
+            pstmt.setString(3, tag.getSzul_ido());
+            pstmt.setString(4, tag.getSzul_hely());
+            pstmt.setInt(5, tag.getUtca_id());
+            pstmt.setString(6, tag.getHazszam());
+            pstmt.setString(7, tag.getTelefonszam());
+            pstmt.setInt(8, tag.isEfj_befizetes() ? 1 : 0);
+            pstmt.setInt(9, tag.getPresbiter_id());
+            pstmt.setString(10, tag.getMegjegyzes());
+            pstmt.setInt(11, tag.getId());
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) { e.printStackTrace(); }
+    }
 }

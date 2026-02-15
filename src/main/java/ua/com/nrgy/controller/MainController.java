@@ -77,6 +77,8 @@ public class MainController {
 
         setupKereso();
         setupPresbiterKereso();
+
+        setupTableEvents();
         frissitTablakat();
     }
 
@@ -219,5 +221,35 @@ public class MainController {
             // 4. Táblázat frissítése
             frissitTablakat();
         }
+    }
+
+    private void setupTableEvents() {
+        tagokTablazat.setRowFactory(tv -> {
+            TableRow<Tag> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                    Tag kijeloltTag = row.getItem();
+                    openModositasDialog(kijeloltTag);
+                }
+            });
+            return row;
+        });
+    }
+
+    private void openModositasDialog(Tag tag) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ua/com/nrgy/uj_tag_dialog.fxml"));
+            Parent root = loader.load();
+
+            UjTagController controller = loader.getController();
+            controller.setTagAdatok(tag); // Adatok átadása!
+            controller.setOnSaveCallback(this::frissitTablakat);
+
+            Stage stage = new Stage();
+            stage.setTitle("Tag adatainak módosítása");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+        } catch (IOException e) { e.printStackTrace(); }
     }
 }

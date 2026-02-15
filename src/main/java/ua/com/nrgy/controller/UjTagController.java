@@ -55,16 +55,15 @@ public class UjTagController {
                 ? szulIdoPicker.getValue().format(DateTimeFormatter.ofPattern("yyyy.MM.dd"))
                 : "";
 
-        // ID-k lekérése a ComboBoxokból
         int utcaId = (utcaComboBox.getValue() != null) ? utcaComboBox.getValue().getId() : 0;
         int presId = (presbiterComboBox.getValue() != null) ? presbiterComboBox.getValue().getId() : 0;
-        String nem = (nemComboBox.getValue() != null) ? nemComboBox.getValue() : "Nincs megadva";
+        String nemValasztva = (nemComboBox.getValue() != null) ? nemComboBox.getValue() : "Nincs megadva";
 
-        // Itt hívjuk meg az ÚJ konstruktort (11 paraméter!)
-        Tag ujTag = new Tag(
-                0,
+        // 11 paraméteres konstruktor hívása
+        Tag tag = new Tag(
+                (modositandoTag != null) ? modositandoTag.getId() : 0,
                 nevField.getText(),
-                nem,
+                nemValasztva,
                 szulIdo,
                 szulHelyField.getText(),
                 utcaId,
@@ -75,7 +74,12 @@ public class UjTagController {
                 megjegyzesArea.getText()
         );
 
-        tagDAO.save(ujTag);
+        if (modositandoTag == null) {
+            tagDAO.save(tag);
+        } else {
+            tagDAO.update(tag);
+        }
+
         if (onSaveCallback != null) onSaveCallback.run();
         closeWindow();
     }
@@ -93,4 +97,31 @@ public class UjTagController {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
+    private Tag modositandoTag; // Ha null, akkor ÚJ, ha nem null, akkor MÓDOSÍTÁS
+
+    // Ezt a metódust hívjuk meg a MainControllerből dupla kattintáskor
+    public void setTagAdatok(Tag tag) {
+        this.modositandoTag = tag;
+
+        // Mezők feltöltése a meglévő adatokkal
+        nevField.setText(tag.getNev());
+        nemComboBox.setValue(tag.getNem());
+        szulHelyField.setText(tag.getSzul_hely());
+        hazszamField.setText(tag.getHazszam());
+        telField.setText(tag.getTelefonszam());
+        efjCheckBox.setSelected(tag.isEfj_befizetes());
+        megjegyzesArea.setText(tag.getMegjegyzes());
+
+        // Dátum visszaállítása
+        if (tag.getSzul_ido() != null && !tag.getSzul_ido().isEmpty()) {
+            szulIdoPicker.setValue(java.time.LocalDate.parse(tag.getSzul_ido(), java.time.format.DateTimeFormatter.ofPattern("yyyy.MM.dd")));
+        }
+
+        // ComboBoxok beállítása (ID alapján megkeressük az objektumot a listában)
+        utcaComboBox.getItems().stream().filter(u -> u.getId() == tag.getUtca_id()).findFirst().ifPresent(u -> utcaComboBox.setValue(u));
+        presbiterComboBox.getItems().stream().filter(p -> p.getId() == tag.getPresbiter_id()).findFirst().ifPresent(p -> presbiterComboBox.setValue(p));
+    }
+
+
 }

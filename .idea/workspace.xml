@@ -4,17 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3e1844fb-476c-45c3-9910-f21e23cbbde0" name="Changes" comment="Database handler modositva">
+    <list default="true" id="3e1844fb-476c-45c3-9910-f21e23cbbde0" name="Changes" comment="Minden modositva, adatbazis is es az ahhoz tartozo kodok. Presbitert meg javitani kell">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gyulekezet.db" beforeDir="false" afterPath="$PROJECT_DIR$/gyulekezet.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/controller/MainController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/controller/UjTagController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/controller/UjTagController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/model/Presbiter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/model/Presbiter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/model/PresbiterDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/model/PresbiterDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/model/Tag.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/model/Tag.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/model/TagDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/model/TagDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/ua/com/nrgy/main_view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ua/com/nrgy/main_view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/ua/com/nrgy/uj_tag_dialog.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ua/com/nrgy/uj_tag_dialog.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,7 +109,7 @@
       <workItem from="1770935451689" duration="2631000" />
       <workItem from="1770995940472" duration="10573000" />
       <workItem from="1771177917677" duration="2119000" />
-      <workItem from="1771180600822" duration="1554000" />
+      <workItem from="1771180600822" duration="2964000" />
     </task>
     <task id="LOCAL-00001" summary="Database is working">
       <option name="closed" value="true" />
@@ -149,7 +143,15 @@
       <option name="project" value="LOCAL" />
       <updated>1771180535199</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Minden modositva, adatbazis is es az ahhoz tartozo kodok. Presbitert meg javitani kell">
+      <option name="closed" value="true" />
+      <created>1771182315798</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1771182315798</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -161,6 +163,7 @@
     <MESSAGE value="DAO and Presbiter Done" />
     <MESSAGE value="Mindenes commit" />
     <MESSAGE value="Database handler modositva" />
-    <option name="LAST_COMMIT_MESSAGE" value="Database handler modositva" />
+    <MESSAGE value="Minden modositva, adatbazis is es az ahhoz tartozo kodok. Presbitert meg javitani kell" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minden modositva, adatbazis is es az ahhoz tartozo kodok. Presbitert meg javitani kell" />
   </component>
 </project>
