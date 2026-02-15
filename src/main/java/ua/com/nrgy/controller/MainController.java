@@ -184,12 +184,6 @@ public class MainController {
         }
     }
 
-    @FXML
-    private void handleUjPresbiterDialog() {
-        // Ide majd hasonló ablaknyitó kódot írhatunk, ha kész a presbiter dialog FXML-je
-        System.out.println("Új presbiter hozzáadása...");
-    }
-
     @FXML private void changeToLight() { Application.setUserAgentStylesheet(new PrimerLight().getUserAgentStylesheet()); }
     @FXML private void changeToDark() { Application.setUserAgentStylesheet(new PrimerDark().getUserAgentStylesheet()); }
     @FXML private void handleExit() { System.exit(0); }
@@ -223,18 +217,6 @@ public class MainController {
         }
     }
 
-    private void setupTableEvents() {
-        tagokTablazat.setRowFactory(tv -> {
-            TableRow<Tag> row = new TableRow<>();
-            row.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                    Tag kijeloltTag = row.getItem();
-                    openModositasDialog(kijeloltTag);
-                }
-            });
-            return row;
-        });
-    }
 
     private void openModositasDialog(Tag tag) {
         try {
@@ -251,5 +233,51 @@ public class MainController {
             stage.setScene(new Scene(root));
             stage.showAndWait();
         } catch (IOException e) { e.printStackTrace(); }
+    }
+
+    @FXML
+    private void handleUjPresbiterDialog() {
+        openPresbiterDialog(null);
+    }
+
+    private void openPresbiterDialog(Presbiter p) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ua/com/nrgy/uj_presbiter_dialog.fxml"));
+            Parent root = loader.load();
+            UjPresbiterController controller = loader.getController();
+            controller.setOnSaveCallback(this::frissitTablakat);
+            if (p != null) controller.setPresbiterAdatok(p);
+
+            Stage stage = new Stage();
+            stage.setTitle(p == null ? "Új presbiter" : "Presbiter módosítása");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+        } catch (IOException e) { e.printStackTrace(); }
+    }
+
+    // A setupTableEvents() metódust bővítsd ki:
+    private void setupTableEvents() {
+        // Tagok dupla kattintás (marad a régi)
+        tagokTablazat.setRowFactory(tv -> {
+            TableRow<Tag> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                    openModositasDialog(row.getItem());
+                }
+            });
+            return row;
+        });
+
+        // Presbiterek dupla kattintás (ÚJ!)
+        presbiterTablazat.setRowFactory(tv -> {
+            TableRow<Presbiter> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                    openPresbiterDialog(row.getItem());
+                }
+            });
+            return row;
+        });
     }
 }

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="15.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.com.nrgy.controller.UjPresbiterController">
+    <padding>
+        <Insets bottom="20.0" left="25.0" right="25.0" top="20.0" />
+    </padding>
+
+    <Label fx:id="ablakCim" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Új presbiter rögzítése" />
+
+    <GridPane hgap="10.0" vgap="10.0">
+        <columnConstraints>
+            <ColumnConstraints minWidth="100.0" prefWidth="120.0" />
+            <ColumnConstraints hgrow="ALWAYS" />
+        </columnConstraints>
+
+        <Label text="Név:" GridPane.rowIndex="0" />
+        <TextField fx:id="nevField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+        <Label text="Nem:" GridPane.rowIndex="1" />
+        <ComboBox fx:id="nemComboBox" maxWidth="Infinity" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+        <Label text="Születési idő:" GridPane.rowIndex="2" />
+        <DatePicker fx:id="szulIdoPicker" maxWidth="Infinity" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+        <Label text="Születési hely:" GridPane.rowIndex="3" />
+        <TextField fx:id="szulHelyField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+        <Label text="Utca (Körzet):" GridPane.rowIndex="4" />
+        <ComboBox fx:id="utcaComboBox" maxWidth="Infinity" promptText="Válasszon utcát..." GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+        <Label text="Házszám:" GridPane.rowIndex="5" />
+        <TextField fx:id="hazszamField" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+        <Label text="Telefonszám:" GridPane.rowIndex="6" />
+        <TextField fx:id="telField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+
+        <Label text="Beiktatás éve:" GridPane.rowIndex="7" />
+        <TextField fx:id="beiktatasField" promptText="pl. 2024" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+
+        <Label text="EFJ:" GridPane.rowIndex="8" />
+        <CheckBox fx:id="efjCheckBox" text="Befizetve" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+
+        <Label text="Megjegyzés:" GridPane.rowIndex="9" />
+        <TextArea fx:id="megjegyzesArea" prefHeight="80.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+    </GridPane>
+
+    <HBox alignment="CENTER_RIGHT" spacing="10.0">
+        <Button onAction="#handleMegse" text="Mégse" />
+        <Button onAction="#handleMentes" styleClass="accent" text="Mentés" />
+    </HBox>
+</VBox>

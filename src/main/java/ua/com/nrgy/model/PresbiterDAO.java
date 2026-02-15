@@ -56,4 +56,26 @@ public class PresbiterDAO {
         } catch (SQLException e) { e.printStackTrace(); }
         return lista;
     }
+
+    public void update(Presbiter presbiter) {
+        String sql = "UPDATE Presbiterek SET nev=?, nem=?, szul_ido=?, szul_hely=?, utca_id=?, hazszam=?, telefonszam=?, efj_befizetes=?, beiktatas_eve=?, megjegyzes=? WHERE id=?";
+
+        try (Connection conn = DatabaseHandler.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, presbiter.getNev());
+            pstmt.setString(2, presbiter.getNem());
+            pstmt.setString(3, presbiter.getSzul_ido());
+            pstmt.setString(4, presbiter.getSzul_hely());
+            pstmt.setInt(5, presbiter.getUtca_id());
+            pstmt.setString(6, presbiter.getHazszam());
+            pstmt.setString(7, presbiter.getTelefonszam());
+            pstmt.setInt(8, presbiter.isEfj_befizetes() ? 1 : 0);
+            pstmt.setInt(9, presbiter.getBeiktatas_eve());
+            pstmt.setString(10, presbiter.getMegjegyzes());
+            pstmt.setInt(11, presbiter.getId());
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) { e.printStackTrace(); }
+    }
 }
