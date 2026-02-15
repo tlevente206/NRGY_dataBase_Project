@@ -11,10 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ua.com.nrgy.model.*;
@@ -24,35 +21,39 @@ import java.util.List;
 
 public class MainController {
 
-    // Táblázatok
+    // --- Táblázatok ---
     @FXML private TableView<Tag> tagokTablazat;
     @FXML private TableView<Presbiter> presbiterTablazat;
 
-    // Oszlopok (Tagok)
+    // --- Oszlopok (Tagok) ---
     @FXML private TableColumn<Tag, String> tagNevOszlop;
-    @FXML private TableColumn<Tag, String> tagCimOszlop;
+    @FXML private TableColumn<Tag, String> tagNemOszlop; // ÚJ
     @FXML private TableColumn<Tag, String> tagSzulIdoOszlop;
     @FXML private TableColumn<Tag, String> tagSzulHelyOszlop;
-    @FXML private TableColumn<Tag, String> tagPresbitereOszlop;
+    @FXML private TableColumn<Tag, String> tagUtcaOszlop; // MÓDOSÍTOTT (utcaNeveProperty)
+    @FXML private TableColumn<Tag, String> tagHazszamOszlop; // ÚJ
     @FXML private TableColumn<Tag, String> tagTelOszlop;
     @FXML private TableColumn<Tag, Boolean> tagEfjOszlop;
+    @FXML private TableColumn<Tag, String> tagPresbitereOszlop;
+    @FXML private TableColumn<Tag, String> tagMegjegyzesOszlop; // ÚJ
 
-    // Oszlopok (Presbiterek)
+    // --- Oszlopok (Presbiterek) ---
     @FXML private TableColumn<Presbiter, String> presNevOszlop;
+    @FXML private TableColumn<Presbiter, String> presNemOszlop; // ÚJ
     @FXML private TableColumn<Presbiter, String> presSzulIdoOszlop;
     @FXML private TableColumn<Presbiter, String> presSzulHelyOszlop;
-    @FXML private TableColumn<Presbiter, String> presCimOszlop;
+    @FXML private TableColumn<Presbiter, String> presUtcaOszlop; // MÓDOSÍTOTT
+    @FXML private TableColumn<Presbiter, String> presHazszamOszlop; // ÚJ
     @FXML private TableColumn<Presbiter, String> presTelOszlop;
     @FXML private TableColumn<Presbiter, Boolean> presEfjOszlop;
     @FXML private TableColumn<Presbiter, Integer> presBeiktatasOszlop;
-    @FXML private TableColumn<Presbiter, String> presUtcaiOszlop;
+    @FXML private TableColumn<Presbiter, String> presMegjegyzesOszlop; // ÚJ
 
+    // --- Keresés elemei ---
+    @FXML private ComboBox<String> tagKeresoOszlopCombo;
+    @FXML private TextField tagKeresoField;
     @FXML private ComboBox<String> presKeresoOszlopCombo;
     @FXML private TextField presKeresoField;
-
-    // Keresés és szűrés elemei
-    @FXML private ComboBox<String> tagKeresoOszlopCombo;
-    @FXML private TextField tagKeresoField; // Ez hiányzott a kódodból!
 
     private final TagDAO tagDAO = new TagDAO();
     private final ObservableList<Tag> tagokLista = FXCollections.observableArrayList();
@@ -63,105 +64,105 @@ public class MainController {
     public void initialize() {
         setupTableColumns();
 
-        // Táblázat beállítások
         tagokTablazat.setFixedCellSize(38);
         presbiterTablazat.setFixedCellSize(38);
-        presbiterTablazat.setItems(presbiterekLista);
-        tagKeresoOszlopCombo.getItems().clear(); // Biztonság kedvéért ürítjük
-        tagKeresoOszlopCombo.getItems().addAll(
-                "Név",
-                "Szül. Idő",
-                "Szül. Hely",
-                "Lakcím",
-                "Telefon",
-                "Presbitere"
-        );
+
+        // Bővített lista a "Szül. Idő" opcióval
+        tagKeresoOszlopCombo.getItems().setAll("Név", "Nem", "Szül. Idő", "Szül. Hely", "Utca", "Telefon", "Presbitere", "Megjegyzés");
         tagKeresoOszlopCombo.getSelectionModel().selectFirst();
 
-// Presbiter kereső Combo feltöltése az összes oszloppal
-        presKeresoOszlopCombo.getItems().clear();
-        presKeresoOszlopCombo.getItems().addAll(
-                "Név",
-                "Szül. Idő",
-                "Szül. Hely",
-                "Lakcím",
-                "Telefon",
-                "Beiktatva",
-                "Körzet/Utcai"
-        );
+        // Presbitereknél is érdemes lehet
+        presKeresoOszlopCombo.getItems().setAll("Név", "Nem", "Szül. Idő", "Szül. Hely", "Utca", "Beiktatva", "Megjegyzés");
         presKeresoOszlopCombo.getSelectionModel().selectFirst();
 
         setupKereso();
         setupPresbiterKereso();
-
-        // Kereső logika beállítása (FONTOS: az Items beállítása előtt!)
-        setupKereso();
-
         frissitTablakat();
     }
 
     private void setupTableColumns() {
-        // Tagok oszlopai összekötése
+        // Tagok oszlop bekötés
         tagNevOszlop.setCellValueFactory(c -> c.getValue().nevProperty());
+        tagNemOszlop.setCellValueFactory(c -> c.getValue().nemProperty());
         tagSzulIdoOszlop.setCellValueFactory(c -> c.getValue().szul_idoProperty());
         tagSzulHelyOszlop.setCellValueFactory(c -> c.getValue().szul_helyProperty());
-        tagCimOszlop.setCellValueFactory(c -> c.getValue().lakcimProperty());
+        tagUtcaOszlop.setCellValueFactory(c -> c.getValue().utcaNeveProperty());
+        tagHazszamOszlop.setCellValueFactory(c -> c.getValue().hazszamProperty());
         tagTelOszlop.setCellValueFactory(c -> c.getValue().telefonszamProperty());
         tagEfjOszlop.setCellValueFactory(c -> c.getValue().efj_befizetesProperty().asObject());
         tagPresbitereOszlop.setCellValueFactory(c -> c.getValue().presbiterNeveProperty());
+        tagMegjegyzesOszlop.setCellValueFactory(c -> c.getValue().megjegyzesProperty());
 
-        // Presbiterek oszlopai összekötése
+        // Presbiterek oszlop bekötés
         presNevOszlop.setCellValueFactory(c -> c.getValue().nevProperty());
+        presNemOszlop.setCellValueFactory(c -> c.getValue().nemProperty());
         presSzulIdoOszlop.setCellValueFactory(c -> c.getValue().szul_idoProperty());
         presSzulHelyOszlop.setCellValueFactory(c -> c.getValue().szul_helyProperty());
-        presCimOszlop.setCellValueFactory(c -> c.getValue().lakcimProperty());
+        presUtcaOszlop.setCellValueFactory(c -> c.getValue().utcaNeveProperty());
+        presHazszamOszlop.setCellValueFactory(c -> c.getValue().hazszamProperty());
         presTelOszlop.setCellValueFactory(c -> c.getValue().telefonszamProperty());
         presEfjOszlop.setCellValueFactory(c -> c.getValue().efj_befizetesProperty().asObject());
         presBeiktatasOszlop.setCellValueFactory(c -> c.getValue().beiktatas_eveProperty().asObject());
-        presUtcaiOszlop.setCellValueFactory(c -> c.getValue().utcaiProperty());
+        presMegjegyzesOszlop.setCellValueFactory(c -> c.getValue().megjegyzesProperty());
     }
 
     public void frissitTablakat() {
         tagokLista.setAll(tagDAO.findAll());
         presbiterekLista.setAll(presbiterDAO.findAll());
-        System.out.println("Adatok betöltve: " + tagokLista.size() + " tag.");
+        System.out.println("Adatok frissítve.");
     }
 
     private void setupKereso() {
-        // FilteredList létrehozása az eredeti listából
         FilteredList<Tag> filteredData = new FilteredList<>(tagokLista, p -> true);
-
-        // Szövegmező változás figyelése
         tagKeresoField.textProperty().addListener((obs, oldVal, newVal) -> {
             filteredData.setPredicate(tag -> {
                 if (newVal == null || newVal.isEmpty()) return true;
-
-                String lowerCaseFilter = newVal.toLowerCase();
+                String lower = newVal.toLowerCase();
                 String oszlop = tagKeresoOszlopCombo.getValue();
 
                 return switch (oszlop) {
-                    case "Név" -> tag.getNev().toLowerCase().contains(lowerCaseFilter);
-                    case "Lakcím" -> tag.getLakcim().toLowerCase().contains(lowerCaseFilter);
-                    case "Telefon" -> tag.getTelefonszam().toLowerCase().contains(lowerCaseFilter);
-                    case "Szül. Hely" -> tag.getSzul_hely().toLowerCase().contains(lowerCaseFilter);
-                    case "Szül. Idő" -> tag.getSzul_ido().toLowerCase().contains(lowerCaseFilter);
-                    case "Presbitere" -> tag.getPresbiterNeve().toLowerCase().contains(lowerCaseFilter);
+                    case "Név" -> tag.getNev().toLowerCase().contains(lower);
+                    case "Nem" -> tag.getNem().toLowerCase().startsWith(lower);
+                    case "Szül. Idő" -> tag.getSzul_ido().toLowerCase().contains(lower); // Dátum keresés
+                    case "Szül. Hely" -> tag.getSzul_hely().toLowerCase().contains(lower);
+                    case "Utca" -> tag.getUtcaNeve().toLowerCase().contains(lower);
+                    case "Telefon" -> tag.getTelefonszam().contains(lower);
+                    case "Presbitere" -> tag.getPresbiterNeve().toLowerCase().contains(lower);
+                    case "Megjegyzés" -> tag.getMegjegyzes().toLowerCase().contains(lower);
                     default -> false;
                 };
             });
         });
 
-        // Combo váltáskor frissítés
-        tagKeresoOszlopCombo.valueProperty().addListener((obs, oldVal, newVal) -> {
-            String filter = tagKeresoField.getText();
-            tagKeresoField.setText("");
-            tagKeresoField.setText(filter);
-        });
-
-        // SortedList a rendezhetőségért
         SortedList<Tag> sortedData = new SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(tagokTablazat.comparatorProperty());
         tagokTablazat.setItems(sortedData);
+    }
+
+    private void setupPresbiterKereso() {
+        FilteredList<Presbiter> filteredData = new FilteredList<>(presbiterekLista, p -> true);
+        presKeresoField.textProperty().addListener((obs, oldVal, newVal) -> {
+            filteredData.setPredicate(p -> {
+                if (newVal == null || newVal.isEmpty()) return true;
+                String lower = newVal.toLowerCase();
+                String oszlop = presKeresoOszlopCombo.getValue();
+
+                return switch (oszlop) {
+                    case "Név" -> p.getNev().toLowerCase().contains(lower);
+                    case "Nem" -> p.getNem().toLowerCase().startsWith(lower);
+                    case "Szül. Idő" -> p.getSzul_ido().toLowerCase().contains(lower); // Dátum keresés itt is
+                    case "Szül. Hely" -> p.getSzul_hely().toLowerCase().contains(lower);
+                    case "Utca" -> p.getUtcaNeve().toLowerCase().contains(lower);
+                    case "Beiktatva" -> String.valueOf(p.getBeiktatas_eve()).contains(lower);
+                    case "Megjegyzés" -> p.getMegjegyzes().toLowerCase().contains(lower);
+                    default -> false;
+                };
+            });
+        });
+
+        SortedList<Presbiter> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(presbiterTablazat.comparatorProperty());
+        presbiterTablazat.setItems(sortedData);
     }
 
     @FXML
@@ -181,58 +182,42 @@ public class MainController {
         }
     }
 
-    private void setupPresbiterKereso() {
-        FilteredList<Presbiter> filteredData = new FilteredList<>(presbiterekLista, p -> true);
-
-        presKeresoField.textProperty().addListener((obs, oldVal, newVal) -> {
-            filteredData.setPredicate(presbiter -> {
-                if (newVal == null || newVal.isEmpty()) return true;
-
-                String lowerCaseFilter = newVal.toLowerCase();
-                String oszlop = presKeresoOszlopCombo.getValue();
-
-                return switch (oszlop) {
-                    case "Név" -> presbiter.getNev().toLowerCase().contains(lowerCaseFilter);
-                    case "Szül. Idő" -> presbiter.getSzul_ido().toLowerCase().contains(lowerCaseFilter);
-                    case "Szül. Hely" -> presbiter.getSzul_hely().toLowerCase().contains(lowerCaseFilter);
-                    case "Lakcím" -> presbiter.getLakcim().toLowerCase().contains(lowerCaseFilter);
-                    case "Telefon" -> presbiter.getTelefonszam().toLowerCase().contains(lowerCaseFilter);
-                    case "Beiktatva" -> String.valueOf(presbiter.getBeiktatas_eve()).contains(lowerCaseFilter);
-                    case "Körzet/Utcai" -> presbiter.getUtcai().toLowerCase().contains(lowerCaseFilter);
-                    default -> false;
-                };
-            });
-        });
-
-        // Combo váltáskor a keresés újraindítása
-        presKeresoOszlopCombo.valueProperty().addListener((obs, oldVal, newVal) -> {
-            String filter = presKeresoField.getText();
-            presKeresoField.setText("");
-            presKeresoField.setText(filter);
-        });
-
-        SortedList<Presbiter> sortedData = new SortedList<>(filteredData);
-        sortedData.comparatorProperty().bind(presbiterTablazat.comparatorProperty());
-        presbiterTablazat.setItems(sortedData);
-    }
-
     @FXML
     private void handleUjPresbiterDialog() {
-        System.out.println("Új presbiter hozzáadása ablak megnyitása...");
+        // Ide majd hasonló ablaknyitó kódot írhatunk, ha kész a presbiter dialog FXML-je
+        System.out.println("Új presbiter hozzáadása...");
     }
 
-    @FXML
-    private void changeToLight() {
-        Application.setUserAgentStylesheet(new PrimerLight().getUserAgentStylesheet());
-    }
+    @FXML private void changeToLight() { Application.setUserAgentStylesheet(new PrimerLight().getUserAgentStylesheet()); }
+    @FXML private void changeToDark() { Application.setUserAgentStylesheet(new PrimerDark().getUserAgentStylesheet()); }
+    @FXML private void handleExit() { System.exit(0); }
 
     @FXML
-    private void changeToDark() {
-        Application.setUserAgentStylesheet(new PrimerDark().getUserAgentStylesheet());
-    }
+    private void handleTagTorles() {
+        // 1. Megnézzük, van-e kijelölt sor
+        Tag kijeloltTag = tagokTablazat.getSelectionModel().getSelectedItem();
 
-    @FXML
-    private void handleExit() {
-        System.exit(0);
+        if (kijeloltTag == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Nincs kijelölés");
+            alert.setHeaderText(null);
+            alert.setContentText("Kérjük, válasszon ki egy tagot a táblázatból a törléshez!");
+            alert.showAndWait();
+            return;
+        }
+
+        // 2. Megerősítést kérünk
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        confirm.setTitle("Törlés megerősítése");
+        confirm.setHeaderText("Biztosan törölni szeretné?");
+        confirm.setContentText("A következő tag adatai véglegesen törlődnek: " + kijeloltTag.getNev());
+
+        if (confirm.showAndWait().get() == ButtonType.OK) {
+            // 3. Törlés az adatbázisból
+            tagDAO.delete(kijeloltTag.getId());
+
+            // 4. Táblázat frissítése
+            frissitTablakat();
+        }
     }
 }

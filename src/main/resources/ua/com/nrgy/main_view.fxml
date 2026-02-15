@@ -58,17 +58,20 @@
                             </columnResizePolicy>
                             <columns>
                                 <TableColumn fx:id="tagNevOszlop" text="Név" />
+                                <TableColumn fx:id="tagNemOszlop" text="Nem" />
                                 <TableColumn fx:id="tagSzulIdoOszlop" text="Szül. Idő" />
                                 <TableColumn fx:id="tagSzulHelyOszlop" text="Szül. Hely" />
-                                <TableColumn fx:id="tagCimOszlop" text="Lakcím" />
+                                <TableColumn fx:id="tagUtcaOszlop" text="Utca" />
+                                <TableColumn fx:id="tagHazszamOszlop" text="Hsz." />
                                 <TableColumn fx:id="tagTelOszlop" text="Telefon" />
                                 <TableColumn fx:id="tagEfjOszlop" text="EFJ" />
                                 <TableColumn fx:id="tagPresbitereOszlop" text="Presbitere" />
+                                <TableColumn fx:id="tagMegjegyzesOszlop" text="Megjegyzés" />
                             </columns>
                         </TableView>
                         <HBox alignment="CENTER_LEFT" spacing="10.0">
                             <Button onAction="#handleUjTagDialog" styleClass="success" text="Új Tag" />
-                            <Button styleClass="danger" text="Törlés" />
+                            <Button onAction="#handleTagTorles" styleClass="danger" text="Törlés" />
                             <Region HBox.hgrow="ALWAYS" />
 
                             <ComboBox fx:id="tagKeresoOszlopCombo" prefWidth="150.0" promptText="Keresés alapja..." />
@@ -88,13 +91,15 @@
                             </columnResizePolicy>
                             <columns>
                                 <TableColumn fx:id="presNevOszlop" text="Név" />
+                                <TableColumn fx:id="presNemOszlop" text="Nem" />
                                 <TableColumn fx:id="presSzulIdoOszlop" text="Szül. Idő" />
                                 <TableColumn fx:id="presSzulHelyOszlop" text="Szül. Hely" />
-                                <TableColumn fx:id="presCimOszlop" text="Lakcím" />
+                                <TableColumn fx:id="presUtcaOszlop" text="Utca" />
+                                <TableColumn fx:id="presHazszamOszlop" text="Hsz." />
                                 <TableColumn fx:id="presTelOszlop" text="Telefon" />
                                 <TableColumn fx:id="presEfjOszlop" text="EFJ" />
                                 <TableColumn fx:id="presBeiktatasOszlop" text="Beiktatva" />
-                                <TableColumn fx:id="presUtcaiOszlop" text="Körzet/Utcai" />
+                                <TableColumn fx:id="presMegjegyzesOszlop" text="Megjegyzés" />
                             </columns>
                         </TableView>
                         <HBox alignment="CENTER_LEFT" spacing="10.0">
