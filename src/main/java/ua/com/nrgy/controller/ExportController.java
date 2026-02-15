@@ -1,13 +1,12 @@
 package ua.com.nrgy.controller;
 
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import ua.com.nrgy.model.*;
@@ -15,184 +14,182 @@ import ua.com.nrgy.util.ExcelExporter;
 import ua.com.nrgy.util.PDFExporter;
 import java.io.File;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ExportController {
     @FXML private ToggleButton pdfToggle, excelToggle;
     @FXML private Label oszlopStatusz, beallitasStatusz;
-    @FXML private TableView<Tag> previewTable;
+    @FXML private VBox paperSheet;
 
     private ObservableList<Tag> tagok;
     private List<String> kivalasztottOszlopok = new ArrayList<>();
 
-    // Paraméterek
-    private boolean pdfLandscape = true;
-    private int pdfFontSize = 10;
-    private String pdfMargin = "Normál";
-    private boolean pdfPageNumbers = true;
-    private boolean excelHighlightEFJ = true;
-    private boolean excelAutoFilter = true;
-    private String excelSheetName = "Nyilvántartás";
+    private boolean isLandscape = true;
+    private int betumeret = 9;
+    private String margo = "Normál";
+    private boolean oldalszam = true;
+    private String excelLapNev = "Nyilvántartás";
 
     private final String[] osszesOszlop = {"Név", "Nem", "Kor", "Szül. Idő", "Szül. Hely", "Utca", "Hsz", "Telefon", "EFJ", "Presbiter", "Megjegyzés"};
 
     @FXML
     public void initialize() {
         kivalasztottOszlopok.addAll(List.of(osszesOszlop));
-        ToggleGroup group = new ToggleGroup();
-        pdfToggle.setToggleGroup(group);
-        excelToggle.setToggleGroup(group);
-
-        pdfToggle.selectedProperty().addListener((obs, oldV, newV) -> updateLabels());
-        updateLabels();
+        ToggleGroup tg = new ToggleGroup();
+        pdfToggle.setToggleGroup(tg); excelToggle.setToggleGroup(tg);
+        pdfToggle.selectedProperty().addListener((obs, o, n) -> updatePreview());
+        updatePreview();
     }
 
     public void setAdatok(ObservableList<Tag> tagok, ObservableList<Presbiter> presbiterek) {
         this.tagok = tagok;
-        refreshPreviewTable();
+        updatePreview();
     }
 
-    private void refreshPreviewTable() {
+    private void updatePreview() {
         if (tagok == null) return;
-        previewTable.getColumns().clear();
 
-        for (String oszlopNev : kivalasztottOszlopok) {
-            TableColumn<Tag, String> col = new TableColumn<>(oszlopNev);
-            col.setCellValueFactory(data -> new SimpleStringProperty(getValueByCol(data.getValue(), oszlopNev)));
-            col.setPrefWidth(100);
-            previewTable.getColumns().add(col);
+        oszlopStatusz.setText(kivalasztottOszlopok.size() + " oszlop kiválasztva");
+        beallitasStatusz.setText(pdfToggle.isSelected() ? "PDF: " + (isLandscape ? "Fekvő" : "Álló") : "Excel: " + excelLapNev);
+
+        paperSheet.getChildren().clear();
+        paperSheet.setPrefWidth(isLandscape ? 842 : 595);
+        paperSheet.setMinHeight(isLandscape ? 595 : 842);
+
+        // Margó szimuláció (PDF arányokhoz igazítva)
+        double p = margo.equals("Keskeny") ? 15 : (margo.equals("Széles") ? 60 : 35);
+        paperSheet.setPadding(new Insets(p));
+
+        // 1. PDF Fejléc szimuláció (Dátum és Cím)
+        Label dateLabel = new Label("Készült: " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm")));
+        dateLabel.setStyle("-fx-font-size: 8pt; -fx-font-family: 'Arial';");
+
+        Label titleLabel = new Label("Gyülekezeti Nyilvántartás");
+        titleLabel.setStyle("-fx-font-size: " + (betumeret + 6) + "pt; -fx-font-weight: bold; -fx-font-family: 'Arial';");
+        titleLabel.setMaxWidth(Double.MAX_VALUE);
+        titleLabel.setAlignment(Pos.CENTER);
+
+        paperSheet.getChildren().addAll(dateLabel, titleLabel, new Region() {{ setMinHeight(15); }});
+
+        // 2. Táblázat szimuláció
+        GridPane grid = new GridPane();
+        grid.setGridLinesVisible(true);
+        grid.setStyle("-fx-border-color: black; -fx-border-width: 0.5;");
+
+        // Fejlécek (szürke háttérrel)
+        for (int i = 0; i < kivalasztottOszlopok.size(); i++) {
+            Label h = new Label(kivalasztottOszlopok.get(i));
+            h.setStyle("-fx-background-color: lightgray; -fx-font-weight: bold; -fx-padding: 3; -fx-font-size: " + betumeret + "pt;");
+            h.setMaxWidth(Double.MAX_VALUE);
+            grid.add(h, i, 0);
         }
 
-        previewTable.setItems(tagok.size() > 15 ? FXCollections.observableArrayList(tagok.subList(0, 15)) : tagok);
-        previewTable.setStyle("-fx-font-size: " + Math.min(pdfFontSize, 12) + "px;");
-    }
-
-    @FXML
-    private void handleOszlopValaszto() {
-        Dialog<Void> dialog = new Dialog<>();
-        dialog.setTitle("Oszlopok válogatása");
-        VBox vb = new VBox(8);
-        vb.setPadding(new Insets(20));
-
-        for (String osz : osszesOszlop) {
-            CheckBox cb = new CheckBox(osz);
-            cb.setSelected(kivalasztottOszlopok.contains(osz));
-            cb.selectedProperty().addListener((obs, oldV, newV) -> {
-                if (newV) { if(!kivalasztottOszlopok.contains(osz)) kivalasztottOszlopok.add(osz); }
-                else kivalasztottOszlopok.remove(osz);
-                updateLabels();
-            });
-            vb.getChildren().add(cb);
+        // Adat mintavétel (A PDF-ben látott konkrét rekordokhoz hasonlóan)
+        int limit = Math.min(tagok.size(), 15);
+        for (int row = 0; row < limit; row++) {
+            for (int col = 0; col < kivalasztottOszlopok.size(); col++) {
+                Label cell = new Label(getValue(tagok.get(row), kivalasztottOszlopok.get(col)));
+                cell.setStyle("-fx-padding: 2; -fx-font-size: " + betumeret + "pt; -fx-font-family: 'Arial';");
+                grid.add(cell, col, row + 1);
+            }
         }
-        dialog.getDialogPane().setContent(vb);
-        dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
-        dialog.showAndWait();
+        paperSheet.getChildren().add(grid);
+
+        // 3. Oldalszám az alján
+        if (oldalszam) {
+            Region spacer = new Region();
+            VBox.setVgrow(spacer, Priority.ALWAYS);
+            Label pNum = new Label("1. oldal");
+            pNum.setStyle("-fx-font-size: 9pt; -fx-font-family: 'Arial';");
+            paperSheet.getChildren().addAll(spacer, pNum);
+        }
     }
 
     @FXML
     private void handleOldalBeallitasok() {
         Dialog<Void> dialog = new Dialog<>();
-        GridPane grid = new GridPane();
-        grid.setHgap(10); grid.setVgap(10); grid.setPadding(new Insets(20));
+        dialog.setTitle("Beállítások");
+        VBox vb = new VBox(10);
+        vb.setPadding(new Insets(20));
 
         if (pdfToggle.isSelected()) {
-            dialog.setTitle("PDF Beállítások");
-            ComboBox<String> orient = new ComboBox<>(FXCollections.observableArrayList("Fekvő", "Álló"));
-            orient.setValue(pdfLandscape ? "Fekvő" : "Álló");
-            Spinner<Integer> fontSpin = new Spinner<>(6, 14, pdfFontSize);
-            ComboBox<String> marg = new ComboBox<>(FXCollections.observableArrayList("Keskeny", "Normál", "Széles"));
-            marg.setValue(pdfMargin);
-
-            grid.add(new Label("Tájolás:"), 0, 0); grid.add(orient, 1, 0);
-            grid.add(new Label("Betűméret:"), 0, 1); grid.add(fontSpin, 1, 1);
-            grid.add(new Label("Margó:"), 0, 2); grid.add(marg, 1, 2);
-
-            dialog.getDialogPane().setContent(grid);
+            CheckBox cbL = new CheckBox("Fekvő tájolás"); cbL.setSelected(isLandscape);
+            ComboBox<String> margoCombo = new ComboBox<>(FXCollections.observableArrayList("Keskeny", "Normál", "Széles"));
+            margoCombo.setValue(margo);
+            vb.getChildren().addAll(new Label("Tájolás:"), cbL, new Label("Margó:"), margoCombo);
             dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+            dialog.getDialogPane().setContent(vb);
             dialog.showAndWait();
-
-            pdfLandscape = orient.getValue().equals("Fekvő");
-            pdfFontSize = fontSpin.getValue();
-            pdfMargin = marg.getValue();
+            isLandscape = cbL.isSelected();
+            margo = margoCombo.getValue();
         } else {
-            dialog.setTitle("Excel Beállítások");
-            CheckBox filter = new CheckBox("Auto-szűrő"); filter.setSelected(excelAutoFilter);
-            CheckBox color = new CheckBox("EFJ Piros kiemelés"); color.setSelected(excelHighlightEFJ);
-            TextField sheet = new TextField(excelSheetName);
-
-            grid.add(filter, 0, 0); grid.add(color, 0, 1);
-            grid.add(new Label("Lap neve:"), 0, 2); grid.add(sheet, 1, 2);
-
-            dialog.getDialogPane().setContent(grid);
+            TextField tf = new TextField(excelLapNev);
+            vb.getChildren().addAll(new Label("Munkalap neve:"), tf);
             dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+            dialog.getDialogPane().setContent(vb);
             dialog.showAndWait();
-
-            excelAutoFilter = filter.isSelected();
-            excelHighlightEFJ = color.isSelected();
-            excelSheetName = sheet.getText();
+            excelLapNev = tf.getText();
         }
-        updateLabels();
+        updatePreview();
     }
 
-    private void updateLabels() {
-        oszlopStatusz.setText(kivalasztottOszlopok.size() + " oszlop");
-        beallitasStatusz.setText(pdfToggle.isSelected() ? "PDF: " + (pdfLandscape ? "Fekvő" : "Álló") : "Excel: " + excelSheetName);
-        refreshPreviewTable();
+    @FXML
+    private void handleOszlopValaszto() {
+        Dialog<Void> dialog = new Dialog<>();
+        VBox vb = new VBox(5);
+        vb.setPadding(new Insets(15));
+        for (String s : osszesOszlop) {
+            CheckBox cb = new CheckBox(s); cb.setSelected(kivalasztottOszlopok.contains(s));
+            cb.selectedProperty().addListener((o, old, n) -> {
+                if (n) { if(!kivalasztottOszlopok.contains(s)) kivalasztottOszlopok.add(s); }
+                else kivalasztottOszlopok.remove(s);
+                updatePreview();
+            });
+            vb.getChildren().add(cb);
+        }
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
+        dialog.getDialogPane().setContent(vb);
+        dialog.showAndWait();
     }
 
     @FXML
     private void handleExport() {
         FileChooser fc = new FileChooser();
-        fc.setTitle("Fájl mentése");
         fc.setInitialFileName("Export_" + LocalDate.now());
-
-        File file;
         if (pdfToggle.isSelected()) {
-            fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF fájl", "*.pdf"));
-            file = fc.showSaveDialog(pdfToggle.getScene().getWindow());
-            if (file != null) {
-                PDFExporter.exportTagok(tagok, file.getAbsolutePath(), kivalasztottOszlopok,
-                        pdfLandscape, pdfFontSize, pdfMargin, pdfPageNumbers);
-                finishExport();
+            fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF", "*.pdf"));
+            File f = fc.showSaveDialog(paperSheet.getScene().getWindow());
+            if (f != null) {
+                PDFExporter.exportTagok(tagok, f.getAbsolutePath(), kivalasztottOszlopok, isLandscape, betumeret, margo, oldalszam);
+                ((Stage) paperSheet.getScene().getWindow()).close();
             }
         } else {
-            fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel fájl", "*.xlsx"));
-            file = fc.showSaveDialog(excelToggle.getScene().getWindow());
-            if (file != null) {
-                ExcelExporter.exportTagok(tagok, file.getAbsolutePath(), kivalasztottOszlopok,
-                        excelHighlightEFJ, excelAutoFilter, excelSheetName);
-                finishExport();
+            fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel", "*.xlsx"));
+            File f = fc.showSaveDialog(paperSheet.getScene().getWindow());
+            if (f != null) {
+                ExcelExporter.exportTagok(tagok, f.getAbsolutePath(), kivalasztottOszlopok, true, true, excelLapNev);
+                ((Stage) paperSheet.getScene().getWindow()).close();
             }
         }
     }
 
-    private void finishExport() {
-        // Kis késleltetés után (opcionális) bezárjuk az ablakot
-        Stage stage = (Stage) pdfToggle.getScene().getWindow();
-        stage.close();
-
-        // Visszajelzés a felhasználónak
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Sikeres mentés");
-        alert.setHeaderText(null);
-        alert.setContentText("A dokumentum elkészült!");
-        alert.show();
-    }
-
-    private String getValueByCol(Tag t, String col) {
+    private String getValue(Tag t, String col) {
+        if (t == null) return "";
         return switch(col) {
-            case "Név" -> t.getNev();
+            case "Név" -> t.getNev() != null ? t.getNev() : "";
+            case "Nem" -> t.getNem() != null ? t.getNem() : "";
             case "Kor" -> String.valueOf(t.getEletkor());
+            case "Szül. Idő" -> t.getSzul_ido() != null ? t.getSzul_ido() : "";
+            case "Szül. Hely" -> t.getSzul_hely() != null ? t.getSzul_hely() : "";
+            case "Utca" -> t.getUtcaNeve() != null ? t.getUtcaNeve() : "";
+            case "Hsz" -> t.getHazszam() != null ? t.getHazszam() : "";
+            case "Telefon" -> t.getTelefonszam() != null ? t.getTelefonszam() : "";
             case "EFJ" -> t.isEfj_befizetes() ? "Igen" : "Nem";
-            case "Telefon" -> t.getTelefonszam();
-            case "Utca" -> t.getUtcaNeve();
-            case "Hsz" -> t.getHazszam();
-            case "Nem" -> t.getNem();
-            case "Szül. Idő" -> t.getSzul_ido();
-            case "Szül. Hely" -> t.getSzul_hely();
-            case "Presbiter" -> t.getPresbiterNeve();
-            case "Megjegyzés" -> t.getMegjegyzes();
+            case "Presbiter" -> t.getPresbiterNeve() != null ? t.getPresbiterNeve() : "";
+            case "Megjegyzés" -> t.getMegjegyzes() != null ? t.getMegjegyzes() : "";
             default -> "";
         };
     }
