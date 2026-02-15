@@ -4,12 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3e1844fb-476c-45c3-9910-f21e23cbbde0" name="Changes" comment="Modositasi lehetoseg a tagoknal hozzaadva">
-      <change afterPath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/controller/UjPresbiterController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/ua/com/nrgy/uj_presbiter_dialog.fxml" afterDir="false" />
+    <list default="true" id="3e1844fb-476c-45c3-9910-f21e23cbbde0" name="Changes" comment="Presbiter hozzaadas es modositas hozzaadva">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gyulekezet.db" beforeDir="false" afterPath="$PROJECT_DIR$/gyulekezet.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/controller/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/model/PresbiterDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/model/PresbiterDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/model/Presbiter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/model/Presbiter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/model/Tag.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ua/com/nrgy/model/Tag.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/ua/com/nrgy/main_view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ua/com/nrgy/main_view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +111,7 @@
       <workItem from="1770935451689" duration="2631000" />
       <workItem from="1770995940472" duration="10573000" />
       <workItem from="1771177917677" duration="2119000" />
-      <workItem from="1771180600822" duration="3398000" />
+      <workItem from="1771180600822" duration="4572000" />
     </task>
     <task id="LOCAL-00001" summary="Database is working">
       <option name="closed" value="true" />
@@ -160,7 +161,15 @@
       <option name="project" value="LOCAL" />
       <updated>1771193351113</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Presbiter hozzaadas es modositas hozzaadva">
+      <option name="closed" value="true" />
+      <created>1771193878001</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1771193878001</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -174,6 +183,7 @@
     <MESSAGE value="Database handler modositva" />
     <MESSAGE value="Minden modositva, adatbazis is es az ahhoz tartozo kodok. Presbitert meg javitani kell" />
     <MESSAGE value="Modositasi lehetoseg a tagoknal hozzaadva" />
-    <option name="LAST_COMMIT_MESSAGE" value="Modositasi lehetoseg a tagoknal hozzaadva" />
+    <MESSAGE value="Presbiter hozzaadas es modositas hozzaadva" />
+    <option name="LAST_COMMIT_MESSAGE" value="Presbiter hozzaadas es modositas hozzaadva" />
   </component>
 </project>

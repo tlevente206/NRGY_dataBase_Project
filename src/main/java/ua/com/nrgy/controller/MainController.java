@@ -55,6 +55,9 @@ public class MainController {
     @FXML private ComboBox<String> presKeresoOszlopCombo;
     @FXML private TextField presKeresoField;
 
+    @FXML private TableColumn<Tag, Integer> tagEletkorOszlop;
+    @FXML private TableColumn<Presbiter, Integer> presEletkorOszlop;
+
     private final TagDAO tagDAO = new TagDAO();
     private final ObservableList<Tag> tagokLista = FXCollections.observableArrayList();
     private final PresbiterDAO presbiterDAO = new PresbiterDAO();
@@ -87,6 +90,7 @@ public class MainController {
         tagNevOszlop.setCellValueFactory(c -> c.getValue().nevProperty());
         tagNemOszlop.setCellValueFactory(c -> c.getValue().nemProperty());
         tagSzulIdoOszlop.setCellValueFactory(c -> c.getValue().szul_idoProperty());
+        tagEletkorOszlop.setCellValueFactory(c -> c.getValue().eletkorProperty().asObject());
         tagSzulHelyOszlop.setCellValueFactory(c -> c.getValue().szul_helyProperty());
         tagUtcaOszlop.setCellValueFactory(c -> c.getValue().utcaNeveProperty());
         tagHazszamOszlop.setCellValueFactory(c -> c.getValue().hazszamProperty());
@@ -99,6 +103,7 @@ public class MainController {
         presNevOszlop.setCellValueFactory(c -> c.getValue().nevProperty());
         presNemOszlop.setCellValueFactory(c -> c.getValue().nemProperty());
         presSzulIdoOszlop.setCellValueFactory(c -> c.getValue().szul_idoProperty());
+        presEletkorOszlop.setCellValueFactory(c -> c.getValue().eletkorProperty().asObject());
         presSzulHelyOszlop.setCellValueFactory(c -> c.getValue().szul_helyProperty());
         presUtcaOszlop.setCellValueFactory(c -> c.getValue().utcaNeveProperty());
         presHazszamOszlop.setCellValueFactory(c -> c.getValue().hazszamProperty());

@@ -70,4 +70,23 @@ public class Tag {
 
     public void setPresbiterNeve(String n) { this.presbiterNeve.set(n); }
     public void setUtcaNeve(String n) { this.utcaNeve.set(n); }
+
+    public int getEletkor() {
+        if (szul_ido.get() == null || szul_ido.get().isEmpty()) {
+            return 0;
+        }
+        try {
+            java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("yyyy.MM.dd");
+            java.time.LocalDate szuletesnap = java.time.LocalDate.parse(szul_ido.get(), formatter);
+            java.time.LocalDate ma = java.time.LocalDate.now();
+            return java.time.Period.between(szuletesnap, ma).getYears();
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    // Kell egy Property is, hogy a TableView meg tudja jeleníteni
+    public IntegerProperty eletkorProperty() {
+        return new SimpleIntegerProperty(getEletkor());
+    }
 }

@@ -60,6 +60,7 @@
                                 <TableColumn fx:id="tagNevOszlop" text="Név" />
                                 <TableColumn fx:id="tagNemOszlop" text="Nem" />
                                 <TableColumn fx:id="tagSzulIdoOszlop" text="Szül. Idő" />
+                                <TableColumn fx:id="tagEletkorOszlop" text="Kor" prefWidth="50" />
                                 <TableColumn fx:id="tagSzulHelyOszlop" text="Szül. Hely" />
                                 <TableColumn fx:id="tagUtcaOszlop" text="Utca" />
                                 <TableColumn fx:id="tagHazszamOszlop" text="Hsz." />
@@ -93,6 +94,7 @@
                                 <TableColumn fx:id="presNevOszlop" text="Név" />
                                 <TableColumn fx:id="presNemOszlop" text="Nem" />
                                 <TableColumn fx:id="presSzulIdoOszlop" text="Szül. Idő" />
+                                <TableColumn fx:id="presEletkorOszlop" text="Kor" prefWidth="50" />
                                 <TableColumn fx:id="presSzulHelyOszlop" text="Szül. Hely" />
                                 <TableColumn fx:id="presUtcaOszlop" text="Utca" />
                                 <TableColumn fx:id="presHazszamOszlop" text="Hsz." />
